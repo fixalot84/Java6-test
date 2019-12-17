@@ -1,5 +1,6 @@
 package jdk.java.lang;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,5 +27,6 @@ public class StringTest {
 		*/
 		// 컴파일 에러:
 		// Cannot switch on a value of type String for source level below 1.7. Only convertible int values or enum variables are permitted
+		Assert.assertNotEquals(1, 2);
 	}
 }
