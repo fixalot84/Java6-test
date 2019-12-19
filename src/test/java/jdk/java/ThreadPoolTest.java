@@ -67,6 +67,14 @@ public class ThreadPoolTest {
 		Assert.assertTrue(0 == failCount);
 	}
 	
+	public List<Myclass> getList() {
+		List<Myclass> list = new LinkedList<Myclass>();
+		for (int i = 0; i < instanceLength; ++i) {
+			list.add(new Myclass(i));
+		}
+		return list;
+	}
+	
 	private class Myclass {
 		private int idx;
 
@@ -104,13 +112,5 @@ public class ThreadPoolTest {
 			throw new RuntimeException(); // 패실
 		}
 		
-	}
-	
-	public List<Myclass> getList() {
-		List<Myclass> list = new LinkedList<Myclass>();
-		for (int i = 0; i < instanceLength; ++i) {
-			list.add(new Myclass(i));
-		}
-		return list;
 	}
 }
