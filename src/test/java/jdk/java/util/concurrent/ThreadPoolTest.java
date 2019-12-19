@@ -1,4 +1,4 @@
-package jdk.java;
+package jdk.java.util.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
