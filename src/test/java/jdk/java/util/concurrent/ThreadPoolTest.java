@@ -15,15 +15,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * ThreadPool 테스트 유닛
+ * ThreadPool 테스트 유닛<br>
+ * imall_batch에 있는 모냥과 거어어의 비슷.<br>
  * 
  * @since 2019-12-19
  * @author fixalot@lotte.net
  */
 public class ThreadPoolTest {
-	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(ThreadPoolTest.class);
-	
+
 	private int instanceLength = 10;
 
 	@Test
@@ -66,7 +66,7 @@ public class ThreadPoolTest {
 		Assert.assertTrue(instanceLength == successCount);
 		Assert.assertTrue(0 == failCount);
 	}
-	
+
 	public List<Myclass> getList() {
 		List<Myclass> list = new LinkedList<Myclass>();
 		for (int i = 0; i < instanceLength; ++i) {
@@ -74,20 +74,20 @@ public class ThreadPoolTest {
 		}
 		return list;
 	}
-	
+
 	private class Myclass {
 		private int idx;
 
 		public Myclass(int idx) {
 			this.idx = idx;
 		}
-		
+
 		@Override
 		public String toString() {
 			return String.valueOf(idx) + "번 째 인스턴스";
 		}
 	}
-	
+
 	private class Mythread implements Callable<Integer> {
 		private Myclass var;
 
@@ -97,20 +97,16 @@ public class ThreadPoolTest {
 
 		@Override
 		public Integer call() throws Exception {
-			return runThread();
-		} 
-		
-		public Integer runThread() {
+//			return runThread();
 			boolean success = true;
-			
+
 			// 두 썸띵
-			logger.debug(String.valueOf(this.var));;
-			
+			logger.debug(String.valueOf(this.var));
+
 			if (success) {
 				return 1; // 성공
-			} 
+			}
 			throw new RuntimeException(); // 패실
 		}
-		
 	}
 }
