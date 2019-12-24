@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 public class PassByValueTest {
 	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory.getLogger(PassByValueTest.class);
+	private static final Logger log = LoggerFactory.getLogger(PassByValueTest.class);
 
 	@Test
 	public void test() {

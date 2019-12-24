@@ -22,14 +22,16 @@ import org.slf4j.LoggerFactory;
  * @author fixalot@lotte.net
  */
 public class ThreadPoolTest {
-	private static final Logger logger = LoggerFactory.getLogger(ThreadPoolTest.class);
+	private static final Logger log = LoggerFactory.getLogger(ThreadPoolTest.class);
 
 	private int instanceLength = 10;
+	private int expectedSuccess = 5;
+	private int expectedFails = 5;
 
 	@Test
 	public void test() {
 		ExecutorService threadPool = null;
-		Collection<Callable<Integer>> threadList = null;
+		Collection<Callable<Boolean>> threadList = null;
 		int successCount = 0;
 		int failCount = 0;
 		int howManyThread = 10;
@@ -37,34 +39,33 @@ public class ThreadPoolTest {
 			List<Myclass> list = getList();
 			if (list != null && list.size() > 0) {
 				threadPool = Executors.newFixedThreadPool(howManyThread);
-				threadList = new ArrayList<Callable<Integer>>();
+				threadList = new ArrayList<Callable<Boolean>>();
 				for (int i = 0; i < list.size(); i++) {
 					Mythread thread = new Mythread(list.get(i));
 					threadList.add(thread);
 				}
-				List<Future<Integer>> resultList = threadPool.invokeAll(threadList);
-				for (Future<Integer> future : resultList) {
-					try {
-						successCount += future.get();
-					} catch (Exception e) {
-						failCount++;
-						logger.error(e.toString());
+				List<Future<Boolean>> resultList = threadPool.invokeAll(threadList);
+				for (Future<Boolean> future : resultList) {
+					if (future.get()) {
+						++successCount;
+					} else {
+						++failCount;
 					}
 				}
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		} finally {
 			if (threadPool != null) {
 				try {
 					threadPool.shutdown();
 				} catch (Exception e) {
-					logger.error(e.getMessage(), e);
+					log.error(e.getMessage(), e);
 				}
 			}
 		}
-		Assert.assertTrue(instanceLength == successCount);
-		Assert.assertTrue(0 == failCount);
+		Assert.assertTrue(expectedSuccess == successCount);
+		Assert.assertTrue(expectedFails == failCount);
 	}
 
 	public List<Myclass> getList() {
@@ -82,13 +83,12 @@ public class ThreadPoolTest {
 			this.idx = idx;
 		}
 
-		@Override
-		public String toString() {
-			return String.valueOf(idx) + "번 째 인스턴스";
+		public int getIdx() {
+			return idx;
 		}
 	}
 
-	private class Mythread implements Callable<Integer> {
+	private class Mythread implements Callable<Boolean> {
 		private Myclass var;
 
 		public Mythread(Myclass myclass) {
@@ -96,17 +96,16 @@ public class ThreadPoolTest {
 		}
 
 		@Override
-		public Integer call() throws Exception {
+		public Boolean call() throws Exception {
 //			return runThread();
 			boolean success = true;
 
 			// 두 썸띵
-			logger.debug(String.valueOf(this.var));
-
-			if (success) {
-				return 1; // 성공
+			log.debug(this.var.getIdx() + "번째 쓰레드");
+			if (this.var.getIdx() % 2 == 0) { // 짝수면 true 반환
+				return true;
 			}
-			throw new RuntimeException(); // 패실
+			return false;
 		}
 	}
 }

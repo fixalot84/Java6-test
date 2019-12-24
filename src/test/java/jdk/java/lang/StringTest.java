@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class StringTest {
 	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory.getLogger(StringTest.class);
+	private static final Logger log = LoggerFactory.getLogger(StringTest.class);
 
 	/**
 	 * Java6에서 Stiring은 switch 문의 조건으로 사용할 수 없음. (Java7 부터 가능) 

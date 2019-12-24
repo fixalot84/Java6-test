@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  * @author fixalot@lotte.net
  */
 public class ExceptionTest {
-	private static final Logger logger = LoggerFactory.getLogger(ExceptionTest.class);
+	private static final Logger log = LoggerFactory.getLogger(ExceptionTest.class);
 
 	@Test
 	public void test() {
@@ -20,8 +20,8 @@ public class ExceptionTest {
 			@SuppressWarnings("unused")
 			int nan = 1 / 0;
 		} catch (Exception e) {
-//			logger.debug(e.getMessage()); // 이렇게 하면 예외 메시지만 나옴.
-			logger.debug(e.getMessage(), e);
+//			log.debug(e.getMessage()); // 이렇게 하면 예외 메시지만 나옴.
+			log.debug(e.getMessage(), e);
 		}
 		Assert.assertTrue(true);
 	}
