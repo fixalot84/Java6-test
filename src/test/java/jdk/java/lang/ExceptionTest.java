@@ -25,4 +25,29 @@ public class ExceptionTest {
 		}
 		Assert.assertTrue(true);
 	}
+	
+	/**
+	 * catch문 작성 순서는 매우 중요하며, 아무렇게나 작성하면 컴파일 에러가 발생할 수 있다.<br>
+	 * 아래의 경우 catch 우선순위는 RuntimeException, Exception, IllegalArgumentException순이다. 즉, catch 우선순위는 작성 순서를 따른다.<br>
+	 * 그리고 try문 바디에서 IllegalArgumentException을 throw 하더라도 'Exception' catch문에서 흡수해버리므로(부모를 잡으라고 작성하면 자식도 잡힘)<br>
+	 * 'IllegalArgumentException' catch문은 있으나 마나한 코드가 되는 것이다.
+	 * 
+	 * @author noritersand
+	 */
+	@Test
+	public void catchOrder() {
+		try {
+			int a = 0;
+			if (a == 0) {
+				throw new IllegalArgumentException();
+			}
+		} catch (RuntimeException e) {
+			// do nothing
+		} catch (Exception e) {
+			// do nothing
+//		} catch (IllegalArgumentException e) { // 이 코멘트를 풀면 컴파일 에러 발생함: 
+			// Unreachable catch block for IllegalArgumentException. It is already handled by the catch block for Exception
+		}
+		Assert.assertTrue(true);
+	}
 }
