@@ -5,6 +5,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * java.lang.String 테스트 유닛
+ * 
+ * @since 2019-12-26
+ * @author fixalot@lotte.net
+ */
 public class StringTest {
 	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(StringTest.class);

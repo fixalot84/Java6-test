@@ -97,9 +97,6 @@ public class ThreadPoolTest {
 
 		@Override
 		public Boolean call() throws Exception {
-//			return runThread();
-			boolean success = true;
-
 			// 두 썸띵
 			log.debug(this.var.getIdx() + "번째 쓰레드");
 			if (this.var.getIdx() % 2 == 0) { // 짝수면 true 반환
