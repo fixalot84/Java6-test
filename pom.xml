@@ -131,5 +131,13 @@
 			<artifactId>joda-time</artifactId>
 			<version>2.8.1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.pionnet</groupId>
+			<artifactId>pionnet-commons</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/commons-pionnet-3.1.1.jar</systemPath>
+		</dependency>
 	</dependencies>
 </project>
