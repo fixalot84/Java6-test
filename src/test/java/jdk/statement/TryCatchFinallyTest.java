@@ -18,10 +18,10 @@ public class TryCatchFinallyTest {
 	private static final Logger logger = LoggerFactory.getLogger(TryCatchFinallyTest.class);
 
 	/**
-	 * catch문 작성 순서는 매우 중요하며, 아무렇게나 작성하면 컴파일 에러가 발생할 수 있다.<br>
+	 * catch 작성 순서는 매우 중요하며, 아무렇게나 작성하면 컴파일 에러가 발생할 수 있다.<br>
 	 * 아래의 경우 catch 우선순위는 RuntimeException, Exception, IllegalArgumentException순이다. 즉, catch 우선순위는 작성 순서를 따른다.<br>
-	 * 그리고 try문 바디에서 IllegalArgumentException을 throw 하더라도 'Exception' catch문에서 흡수해버리므로(부모를 잡으라고 작성하면 자식도 잡힘)<br>
-	 * 'IllegalArgumentException' catch문은 있으나 마나한 코드가 되는 것이다.
+	 * 그리고 try에서 IllegalArgumentException을 throw 하더라도 'Exception' catch에서 흡수해버리므로(부모를 잡으라고 작성하면 자식도 잡힘)<br>
+	 * 'IllegalArgumentException' catch는 dead code가 된다.
 	 * 
 	 * @author noritersand
 	 */
@@ -48,7 +48,7 @@ public class TryCatchFinallyTest {
 				@SuppressWarnings("unused")
 				int nan = 1 / 0; // 여기서 발생한 예외는 가장 바깥의 catch에서 받음
 			} finally {
-				// catch문이 없으면 finally라도 있어야 컴파일 에러 안남
+				// catch가 없으면 finally라도 있어야 컴파일 에러 안남
 				logger.debug("You know nothing John snow!");
 			}
 		} catch (ArithmeticException e) {
@@ -86,12 +86,18 @@ public class TryCatchFinallyTest {
 		String str = weirdStatement();
 		Assert.assertEquals("weirdStatement", str);
 
-		str = weirdStatement2();
+		try {
+			str = weirdStatement2();
+		} catch (Exception e) {
+			str = "Hello world!"; // catch의 throw는 finally가 있어 무시되었기 때문에 이 라인은 dead code가 됨.
+		}
 		Assert.assertEquals("weirdStatement2", str);
 	}
 
 	/**
-	 * catch에서 return 해봐야 finally 때문에 무시됨. 이런 이유때문에 finally에서 return을 하면 경고가 나타난다.
+	 * catch의 return은 finally의 return에 의해 무시됨.<br>
+	 * 이 코드처럼 catch의 return/throw가 있을 때 finally에서 return을 명시하면<br>
+	 * 'finally block does not complete normally' 경고 발생함.
 	 * 
 	 * @return
 	 * @author noritersand
@@ -105,7 +111,7 @@ public class TryCatchFinallyTest {
 		} catch (IllegalAccessError e) {
 			str += "State";
 			logger.debug(str);
-			return str;
+			return "";
 		} finally {
 			str += "ment";
 			logger.debug(str);
@@ -114,7 +120,9 @@ public class TryCatchFinallyTest {
 	}
 
 	/**
-	 * 얘도 마찬가지로 catch에서 throw 해봐야 finally 때문에 무시되됨
+	 * catch의 return은 finally의 return에 의해 무시됨.<br>
+	 * 이 코드처럼 catch의 return/throw가 있을 때 finally에서 return을 명시하면<br>
+	 * 'finally block does not complete normally' 경고 발생함.
 	 * 
 	 * @return
 	 * @author noritersand
