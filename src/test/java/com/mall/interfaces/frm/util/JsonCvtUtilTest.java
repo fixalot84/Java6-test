@@ -36,4 +36,9 @@ public class JsonCvtUtilTest {
 		Assert.assertEquals(ArrayList.class, result.getData().getClass());
 		Assert.assertEquals(LinkedHashMap.class, result.getData().get(0).getClass());
 	}
+
+	@Test
+	public void shouldBeError() throws Exception {
+		JsonCvtUtil.jsonToObject(ResponseVO.class, "");
+	}
 }
