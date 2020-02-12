@@ -2,11 +2,14 @@ package com.mall.interfaces.frm.util;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * 복사해온 JsonCvtUtil 테스트 유닛
@@ -39,6 +42,70 @@ public class JsonCvtUtilTest {
 
 	@Test
 	public void shouldBeError() throws Exception {
-		JsonCvtUtil.jsonToObject(ResponseVO.class, "");
+//		JsonCvtUtil.jsonToObject(ResponseVO.class, "");
+		Assert.assertTrue(1 != 2);
+	}
+
+	@Test
+	public void testNonNull() {
+		ParentVo vo = new ParentVo();
+		Assert.assertEquals("{\"itmOptLst\":[]}", JsonCvtUtil.objectToJson(vo));
+
+		vo = new ParentVo();
+		vo.setEitmNo("");
+		vo.setSlPrc(0L);
+		vo.getItmOptLst().add(new ChildVo());
+		Assert.assertEquals("{\"eitmNo\":\"\",\"itmOptLst\":[{}],\"slPrc\":0}", JsonCvtUtil.objectToJson(vo));
+
+		vo = new ParentVo();
+		vo.setEitmNo("aaa");
+		vo.setSlPrc(123L);
+		List<ChildVo> list = vo.getItmOptLst();
+		ChildVo child = new ChildVo();
+		list.add(child);
+		child.setOptCd("bbb");
+		Assert.assertEquals("{\"eitmNo\":\"aaa\",\"itmOptLst\":[{\"optCd\":\"bbb\"}],\"slPrc\":123}", JsonCvtUtil.objectToJson(vo));
+	}
+
+	@Test
+	public void testNonDefault() {
+		ParentVo vo = new ParentVo();
+		Assert.assertEquals("{}", JsonCvtUtil.objectToJson(vo, Include.NON_DEFAULT));
+
+		vo = new ParentVo();
+		vo.setEitmNo("");
+		vo.setSlPrc(0L);
+		vo.getItmOptLst().add(new ChildVo());
+		Assert.assertEquals("{\"eitmNo\":\"\",\"itmOptLst\":[{}],\"slPrc\":0}", JsonCvtUtil.objectToJson(vo, Include.NON_DEFAULT));
+
+		vo = new ParentVo();
+		vo.setEitmNo("aaa");
+		vo.setSlPrc(123L);
+		List<ChildVo> list = vo.getItmOptLst();
+		ChildVo child = new ChildVo();
+		list.add(child);
+		child.setOptCd("bbb");
+		Assert.assertEquals("{\"eitmNo\":\"aaa\",\"itmOptLst\":[{\"optCd\":\"bbb\"}],\"slPrc\":123}", JsonCvtUtil.objectToJson(vo, Include.NON_DEFAULT));
+	}
+
+	@Test
+	public void testNonEmpty() {
+		ParentVo vo = new ParentVo();
+		Assert.assertEquals("{}", JsonCvtUtil.objectToJson(vo, Include.NON_EMPTY));
+
+		vo = new ParentVo();
+		vo.setEitmNo("");
+		vo.setSlPrc(0L);
+		vo.getItmOptLst().add(new ChildVo());
+		Assert.assertEquals("{\"itmOptLst\":[{}]}", JsonCvtUtil.objectToJson(vo, Include.NON_EMPTY));
+
+		vo = new ParentVo();
+		vo.setEitmNo("aaa");
+		vo.setSlPrc(123L);
+		List<ChildVo> list = vo.getItmOptLst();
+		ChildVo child = new ChildVo();
+		list.add(child);
+		child.setOptCd("bbb");
+		Assert.assertEquals("{\"eitmNo\":\"aaa\",\"itmOptLst\":[{\"optCd\":\"bbb\"}],\"slPrc\":123}", JsonCvtUtil.objectToJson(vo, Include.NON_EMPTY));
 	}
 }

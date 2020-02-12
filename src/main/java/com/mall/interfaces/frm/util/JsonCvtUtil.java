@@ -21,7 +21,19 @@ public class JsonCvtUtil {
 	private JsonCvtUtil() {}
 
 	public static String objectToJson(Object cvtObject) {
+		return objectToJson(cvtObject, Include.NON_NULL);
+	}
 
+	/**
+	 * 기존 메서드에서 Include 부분만 확장
+	 * 
+	 * @param cvtObject
+	 * @param include
+	 * @return
+	 * @since 2020-02-11
+	 * @author fixalot@lotte.net
+	 */
+	public static String objectToJson(Object cvtObject, Include include) {
 		String cvtJson = null;
 
 		if (cvtObject == null) {
@@ -30,7 +42,7 @@ public class JsonCvtUtil {
 
 		ObjectMapper mapper = new ObjectMapper();
 
-		mapper.setSerializationInclusion(Include.NON_NULL);
+		mapper.setSerializationInclusion(include);
 		try {
 			// Convert object to JSON string
 			cvtJson = mapper.writeValueAsString(cvtObject);
