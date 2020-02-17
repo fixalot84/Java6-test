@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,6 +29,21 @@ public class JacksonTest {
 	private static final Logger logger = LoggerFactory.getLogger(JacksonTest.class);
 
 	private ObjectMapper mapper = new ObjectMapper();
+
+	@Test
+	public void testParseArrayOrObject() throws JsonParseException, JsonMappingException, IOException {
+		mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS, false);
+		mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+
+		String text = "{\"aaa\": \"Hello world!\", \"bbb\": \"due\"}";
+//		String text = "{\"aaa\": \"Hello world!\", \"bbb\": [\"one\", \"two\"]}";
+
+		Vo a = mapper.readValue(text, Vo.class);
+		Assert.assertNotNull(a);
+		Assert.assertEquals(1, a.getBbb().size());
+	}
 
 	/**
 	 * JSON 문자열 -> 인스턴스
@@ -106,5 +122,26 @@ public class JacksonTest {
 		Assert.assertEquals(Integer.valueOf(43), poList.get(1).getAge());
 		Assert.assertEquals(true, poList.get(0).isDead());
 		Assert.assertEquals(true, poList.get(1).isDead());
+	}
+}
+
+class Vo {
+	private String aaa;
+	private List<String> bbb;
+
+	public String getAaa() {
+		return aaa;
+	}
+
+	public void setAaa(String aaa) {
+		this.aaa = aaa;
+	}
+
+	public List<String> getBbb() {
+		return bbb;
+	}
+
+	public void setBbb(List<String> bbb) {
+		this.bbb = bbb;
 	}
 }

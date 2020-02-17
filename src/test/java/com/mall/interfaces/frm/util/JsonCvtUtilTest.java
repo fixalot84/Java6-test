@@ -24,16 +24,16 @@ public class JsonCvtUtilTest {
 	@Test
 	public void testJsonToObject() throws Exception {
 		String jsonString = "{}";
-		ResponseVO result = JsonCvtUtil.jsonToObject(ResponseVO.class, jsonString, true, true);
+		ResponseVO result = JsonCvtUtil.jsonToObject(ResponseVO.class, jsonString, false, false);
 		Assert.assertEquals("ResponseVO [returnCode=null, message=null, subMessages=null, dataCount=null, data=null]", result.toString());
 
 		jsonString = "{ \"returnCode\": \"3000\", \"message\": \"조회내역이 없습니다.\", \"subMessages\": null, \"dataCount\": null, \"data\": null }";
-		result = JsonCvtUtil.jsonToObject(ResponseVO.class, jsonString, true, true);
+		result = JsonCvtUtil.jsonToObject(ResponseVO.class, jsonString, false, false);
 		Assert.assertEquals("ResponseVO [returnCode=3000, message=조회내역이 없습니다., subMessages=null, dataCount=null, data=null]", result.toString());
 
 		jsonString
 				= "{ \"returnCode\": \"0000\", \"message\": \"정상 처리되었습니다.\", \"subMessages\": null, \"dataCount\": 1, \"data\": [{\"spdNo\": \"LI1001967458\", \"resultCode\": \"8888\", \"resultMessage\": \"상품이 존재하지 않습니다.\"} ] }";
-		result = JsonCvtUtil.jsonToObject(ResponseVO.class, jsonString, true, true);
+		result = JsonCvtUtil.jsonToObject(ResponseVO.class, jsonString, false, false);
 		Assert.assertEquals("ResponseVO [returnCode=0000, message=정상 처리되었습니다., subMessages=null, dataCount=1, data=[{spdNo=LI1001967458, resultCode=8888, resultMessage=상품이 존재하지 않습니다.}]]",
 				result.toString());
 		Assert.assertEquals(ArrayList.class, result.getData().getClass());

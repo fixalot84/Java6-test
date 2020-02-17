@@ -49,96 +49,40 @@ public class JsonCvtUtil {
 			logger.debug(cvtJson);
 
 		} catch (Exception e) {
-			logger.error("Exception[e] :: " + e.toString());
+			logger.error(e.getMessage(), e);
 		}
 
 		return cvtJson;
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T jsonToObject(Class<T> boundClass, String json, boolean ignoreUnknownProperties) throws Exception {
-		ObjectMapper mapper = new ObjectMapper();
-		Object bean = null;
-		try {
-			if (ignoreUnknownProperties) {
-				mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-			}
-			bean = mapper.readValue(json, boundClass);
-
-		} catch (Exception e) {
-			logger.error("Exception[e] :: " + e.toString());
-//            throw e;
-		}
-
-		return (T) bean;
-	}
-
-	public static <T> T jsonToObject(Class<T> boundClass, String json) throws Exception {
-		return jsonToObject(boundClass, json, false);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> T jsonToObjectCoupang(Class<T> boundClass, String json) throws Exception {
-
-		ObjectMapper mapper = new ObjectMapper();
-		Object bean = null;
-		try {
-			mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-			mapper.configure(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS, false);
-			bean = mapper.readValue(json, boundClass);
-
-		} catch (Exception e) {
-			logger.error("Exception[e] :: " + e.toString());
-//            throw e;
-		}
-
-		return (T) bean;
-	}
-
-	/**
-	 * json => object 변환<br>
-	 * FAIL_ON_UNRESOLVED_OBJECT_IDS 조건 추가함.
-	 * 
-	 * @param <T>
-	 * @param boundClass
-	 * @param json
-	 * @param ignoreUnknownProperties
-	 * @param ignoreUnresolvedObjectIds
-	 * @return
-	 * @throws Exception
-	 * @since 2020-01-16
-	 * @author fixalot@lotte.net
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T jsonToObject(Class<T> boundClass, String json, boolean ignoreUnknownProperties, boolean ignoreUnresolvedObjectIds) throws Exception {
-		ObjectMapper mapper = new ObjectMapper();
-		Object bean = null;
-		try {
-			if (ignoreUnknownProperties) {
-				mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-			}
-			if (ignoreUnresolvedObjectIds) {
-				mapper.configure(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS, false);
-			}
-			bean = mapper.readValue(json, boundClass);
-		} catch (Exception e) {
-			logger.error("Exception[e] :: " + e.toString());
-		}
-		return (T) bean;
-	}
-
-	@SuppressWarnings("unchecked")
 	public static HashMap<String, String> objectToMap(Object obj) {
-
 		ObjectMapper oMapper = new ObjectMapper();
 		HashMap<String, String> map = null;
 		try {
 			map = oMapper.convertValue(obj, HashMap.class);
 		} catch (Exception e) {
-			logger.error("Exception[e] :: " + e.toString());
-//            throw e;
+			logger.error(e.getMessage(), e);
 		}
-
 		return map;
+	}
+
+	public static <T> T jsonToObject(Class<T> boundClass, String json, boolean failOnUnknownProperties, boolean failOnUnresolvedObjectIds) throws Exception {
+		return jsonToObject(boundClass, json, failOnUnknownProperties, failOnUnresolvedObjectIds, true);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T jsonToObject(Class<T> boundClass, String json, boolean failOnUnknownProperties, boolean failOnUnresolvedObjectIds, boolean acceptSingleValueAsArray) throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		Object bean = null;
+		try {
+			mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, failOnUnknownProperties);
+			mapper.configure(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS, failOnUnresolvedObjectIds);
+			mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, acceptSingleValueAsArray);
+			bean = mapper.readValue(json, boundClass);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return (T) bean;
 	}
 }
