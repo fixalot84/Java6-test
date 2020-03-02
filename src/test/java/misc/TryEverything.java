@@ -1,9 +1,5 @@
 package misc;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,16 +15,9 @@ public class TryEverything {
 
 	public static void main(String[] args) {
 		try {
-		int bytesAvailable;
-			FileInputStream fileInputStream = new FileInputStream(new File("somewhere"));
-			bytesAvailable = fileInputStream.available();
-			int maxBufferSize = 100;
-			int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-			byte[] buffer = new byte[bufferSize];
 
-			// read file and write it into form...
-			int bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-		} catch (IOException e) {
+
+		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			System.exit(1);
 		}
