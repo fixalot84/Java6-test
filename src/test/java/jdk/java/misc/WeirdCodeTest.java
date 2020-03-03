@@ -25,10 +25,10 @@ public class WeirdCodeTest {
 
 		for (Hi ele : list) {
 			ele = new Hi("Hello!");
-			logger.debug(String.valueOf(ele));
+			logger.debug("{}", ele);
 		}
 
-		logger.debug(String.valueOf(list));
+		logger.debug("{}", list);
 		Assert.assertTrue(list.size() == 2);
 		Assert.assertNotEquals(list.get(0), list.get(1));
 	}

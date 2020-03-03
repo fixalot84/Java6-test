@@ -10,7 +10,7 @@ public class ForStatementTest {
 	@Test
 	public void test() {
 		for (int i = 0; i != 0; i++) {
-			logger.debug(String.valueOf(i));
+			logger.debug("{}", i);
 		}
 	}
 }
