@@ -35,7 +35,6 @@ public class CollectionUtilsTest {
 
 		// 합치기 전 사이즈와 합친 후의 사이즈가 같음
 		Assert.assertEquals(a.size(), c.size());
-		// 아마 요소가 map이고 map의 값들이 모두 같으면 같은 요소라고 판단하는 모양임.
 		logger.debug("{}", c);
 	}
 

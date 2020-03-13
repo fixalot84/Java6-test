@@ -22,4 +22,13 @@ public class BigDecimalTest {
 		BigDecimal n = new BigDecimal("2345.52525");
 		Assert.assertEquals(5, n.scale());
 	}
+
+	@Test
+	public void testEqualsWithLong() {
+		Long l = new Long(1);
+		BigDecimal d = new BigDecimal("1");
+
+		Assert.assertTrue(l.equals(d.longValue()));
+		Assert.assertTrue(d.equals(new BigDecimal(l)));
+	}
 }
