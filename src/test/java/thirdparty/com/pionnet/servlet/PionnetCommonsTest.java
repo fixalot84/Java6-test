@@ -13,7 +13,7 @@ public class PionnetCommonsTest {
 
 	@Test
 	public void shouldBeEquals() {
-		Assert.assertEquals("com.pionnet.servlet.BaseParameterMap", BaseParameterMap.class);
+		Assert.assertEquals("class com.pionnet.servlet.BaseParameterMap", BaseParameterMap.class.toString());
 	}
 
 }

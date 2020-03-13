@@ -10,16 +10,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * {@link CollectionUtils} 테스트 유닛<br>
+ */
 public class CollectionUtilsTest {
-	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(CollectionUtilsTest.class);
 
-	/**
-	 * {@link CollectionUtils#union(java.util.Collection, java.util.Collection)} 테스트<br>
-	 * 두 컬렉션의 요소가 완전히 다른 인스턴스인 경우
-	 * 
-	 * @author noritersand
-	 */
 	@Test
 	public void testUnionWithMap() {
 		List<HashMap<String, Object>> a = generateMapList();
@@ -58,7 +54,7 @@ public class CollectionUtilsTest {
 
 		// 합침
 		@SuppressWarnings("unchecked")
-		List<HashMap<String, Object>> c = (List<HashMap<String, Object>>) CollectionUtils.union(x, y);
+		List<ListTestModel> c = (List<ListTestModel>) CollectionUtils.union(x, y);
 
 		// 합치기 전 사이즈와 합친 후의 사이즈가 다름
 		Assert.assertNotEquals(x.size(), c.size());
