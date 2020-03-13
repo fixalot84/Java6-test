@@ -1,4 +1,4 @@
-package thirdparty.apache.lang3;
+package thirdparty.apache.commons;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Assert;
