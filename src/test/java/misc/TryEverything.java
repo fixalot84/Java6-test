@@ -1,5 +1,7 @@
 package misc;
 
+import java.util.Scanner;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +17,17 @@ public class TryEverything {
 
 	public static void main(String[] args) {
 		try {
+		    int[] numArray = new int[10];
+		    int num;
 
+		    for (int i = 0; i < 10; i++) {
+		    	System.out.printf("intput : ");
+		    	Scanner scan = new Scanner(System.in);
+				num = scan.nextInt();
+		        numArray[i] = num;
+		    }
+		    oddCheck(numArray);
+		    evenCheck(numArray);
 
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -23,4 +35,21 @@ public class TryEverything {
 		}
 	}
 
+	public static void oddCheck(int[] param) {
+		for (int i = 0; i < 10; i++) {
+			if (param[i] % 2 == 1) {
+				System.out.printf("%d ", param[i]);
+			}
+		}
+		System.out.printf("\n");
+	}
+
+	public static void evenCheck(int[] param) {
+		for (int i = 0; i < 10; i++) {
+			if (param[i] % 2 == 0) {
+				System.out.printf("%d ", param[i]);
+			}
+		}
+		System.out.printf("\n");
+	}
 }
