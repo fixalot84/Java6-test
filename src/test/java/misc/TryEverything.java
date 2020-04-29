@@ -8,6 +8,7 @@ package misc;
  * @author fixalot@lotte.net
  */
 public class TryEverything {
+
 	public static void main(String[] args) {
 
 	}

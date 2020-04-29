@@ -43,4 +43,29 @@ public class StringTest {
 		str = str.replaceAll("\\r", "").replaceAll("\\n", "");
 		Assert.assertEquals("[롯데온]안녕하세요 롯데홈 담당자입니다. 해당 상품은 분실로 인한 미배송으로 불핀드려 죄송합니다. 배송 원하실 경우 재배송 가능하오니 확인 바랍니다.", str);
 	}
+
+	@Test
+	public void testSplit() {
+		String[] a = splitOrderNumber("주문번호1:주문순번1,주문번호2:주문순번2,주문번호3:주문순번3");
+		String[] b = splitOrderNumber("주문번호1,주문순번1:주문번호2,주문순번2:주문번호3,주문순번3");
+		logger.debug("{}, {}", a[0], a[1]);
+		logger.debug("{}, {}", b[0], b[1]);
+	}
+
+	private String[] splitOrderNumber(String str) {
+		String ordNoList = "";
+		String ordSnNoList = "";
+		String[] ordDetailArray = str.split("\\:");
+		if (ordDetailArray.length == 2) {
+			if (!"".equals(ordNoList)) {
+				ordNoList += ",";
+			}
+			ordNoList += ordDetailArray[0];
+			if (!"".equals(ordSnNoList)) {
+				ordSnNoList += ",";
+			}
+			ordSnNoList += ordDetailArray[1];
+		}
+		return new String[] { ordNoList, ordSnNoList };
+	}
 }
